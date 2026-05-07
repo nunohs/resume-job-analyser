@@ -9,6 +9,8 @@ from google.genai import types
 from pydantic import BaseModel
 from google.genai.errors import ServerError, ClientError
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from parser import extract_text_from_pdf
 from prompts import build_analysis_prompt
 
@@ -16,6 +18,16 @@ from prompts import build_analysis_prompt
 load_dotenv()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
