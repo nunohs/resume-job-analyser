@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import API_BASE_URL from "./config";
 
 function App() {
   const [jobDescription, setJobDescription] = useState("");
@@ -21,11 +22,10 @@ function App() {
       formData.append("resume", resumeFile);
       formData.append("job_description", jobDescription);
 
-      const response = await fetch("http://127.0.0.1:8000/analyse", {
+      const response = await fetch(`${API_BASE_URL}/analyse`, {
         method: "POST",
         body: formData,
       });
-
       const data = await response.json();
 
       console.log("API response:", data);
