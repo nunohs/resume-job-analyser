@@ -52,6 +52,7 @@ To keep the MVP focused, this version will not include:
   
 ##Screenshots
 <img width="1889" height="940" alt="jobanalyzerscreenshot1" src="https://github.com/user-attachments/assets/73be79cc-3718-4dbb-8529-09d00022d448" />
+
 <img width="1888" height="943" alt="jobanalyzerscreenshot2" src="https://github.com/user-attachments/assets/0bf180d1-1bb5-4adc-a66d-81e0f7617ed3" />
 
 ## Running locally
