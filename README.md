@@ -1,26 +1,44 @@
-# AI Resume + Job Match Analyser
+# Resume Job Analyser
 
-A full-stack web app that analyses a user's resume against a job description and provides an AI-powered match score, strengths, gaps, and improvement suggestions.
+An AI-powered tool that compares your resume against a job description and gives you actionable feedback — instantly.
 
-## MVP Scope
+**Live demo:** https://resume-job-analyser-pi.vercel.app
 
-The AI Resume + Job Match Analyser is a simple full-stack web app that helps users compare their resume against a specific job description.
+## What it does (MVP Scope)
 
-The MVP flow is:
+Upload your resume as a PDF, paste a job description, and get back:
 
-1. User uploads a resume PDF.
-2. User pastes a job description.
-3. User clicks an analyse button.
-4. The app extracts text from the resume.
-5. The app compares the resume against the job description using an LLM.
-6. The app returns:
-   - A match score
-   - Missing keywords or skills
-   - Resume rewrite suggestions
-   - A simple cover letter draft
+- **Match score** — a 0–100 rating of how well your resume fits the role
+- **Missing keywords** — skills, tools, and qualifications from the job description that are absent or weak in your resume
+- **Resume rewrite suggestions** — specific bullet point rewrites with an explanation of why each change helps
+- **Cover letter draft** — a tailored cover letter you can copy and adapt
 
-## What This App Will Not Do
+## Tech stack
 
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite |
+| Backend | FastAPI (Python) |
+| AI | Google Gemini (`gemini-3.1-flash-lite-preview`) |
+| PDF parsing | pdfplumber |
+| Deployment | Vercel (frontend) |
+
+## Project structure
+
+```
+resume-job-analyser/
+├── frontend/          # React + Vite app
+│   └── src/
+│       ├── App.jsx    # Main UI and analysis results
+│       └── config.js  # API base URL config
+└── backend/           # FastAPI app
+    ├── main.py        # API endpoints
+    ├── parser.py      # PDF text extraction
+    ├── prompts.py     # Gemini prompt builder
+    └── requirements.txt
+```
+
+## WHat This App Will Not do (Outside of scope)
 To keep the MVP focused, this version will not include:
 
 - User accounts or login
@@ -32,30 +50,76 @@ To keep the MVP focused, this version will not include:
 - Automatic job applications
 - Payment features
 
-The goal is to keep the project focused on one clear flow:
-
-```txt
-Resume PDF + Job Description → AI Analysis → Job Match Report
-
-## Tech Stack
-
-### Frontend
-- React
-- Vite
+## Running locally
 
 ### Backend
-- Python
-- FastAPI
-- Uvicorn
-- pdfplumber
-- Gemini API
-- python-dotenv
 
-## Project Structure
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate       # Windows
+pip install -r requirements.txt
+```
 
-```txt
-resume-job-analyser/
-├── frontend/
-├── backend/
-└── README.md
+Create a `.env` file in `backend/`:
+
+```
+GEMINI_API_KEY=your_key_here
+```
+
+Start the server:
+
+```bash
+uvicorn main:app --reload
+```
+
+The API runs at `http://127.0.0.1:8000`.
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:5173`.
+
+To point the frontend at a different backend URL, set `VITE_API_BASE_URL` in a `.env` file inside `frontend/`:
+
+```
+VITE_API_BASE_URL=https://your-backend-url.com
+```
+
+## API
+
+### `POST /analyse`
+
+Accepts `multipart/form-data`:
+
+| Field | Type | Description |
+|---|---|---|
+| `resume` | File (PDF) | The candidate's resume |
+| `job_description` | string | The job description text |
+
+Returns:
+
+```json
+{
+  "match_score": 72,
+  "missing_keywords": ["TypeScript", "CI/CD", "Agile"],
+  "suggested_resume_rewrites": [
+    {
+      "original_issue": "...",
+      "suggested_rewrite": "...",
+      "reason": "..."
+    }
+  ],
+  "cover_letter_draft": "Dear Hiring Manager, ..."
+}
+```
+
+## Built by
+
+Hadi Nuno Handrison
 
