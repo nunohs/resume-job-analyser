@@ -38,7 +38,7 @@ resume-job-analyser/
     └── requirements.txt
 ```
 
-## WHat This App Will Not do (Outside of scope)
+## What This App Will Not Do (Outside of scope)
 To keep the MVP focused, this version will not include:
 
 - User accounts or login
